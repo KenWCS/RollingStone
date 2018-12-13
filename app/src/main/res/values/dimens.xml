@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tile_size" format="integer" type="integer">70</item>
+</resources>
