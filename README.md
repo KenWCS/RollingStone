@@ -91,10 +91,12 @@ Pour déplacer la pierre vers le haut, le bas, la gauche et la droite, tu utilis
 
 ## Documentation:
 
+### Interaction utilisateur
 [Use touch gestures](https://developer.android.com/training/gestures/)
 
 [Sensors](https://developer.android.com/guide/topics/sensors/)
 
+### Dessiner dans un canvas
 [Canvas](https://developer.android.com/reference/android/graphics/Canvas)
 
 [Paint](https://developer.android.com/reference/android/graphics/Paint)
