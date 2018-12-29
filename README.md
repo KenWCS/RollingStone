@@ -3,13 +3,28 @@
 
 > Le but de ce TP est de se familiariser avec le Canvas et les Gestures.
 
-1. Créer une application basée sur le template 'Empty Activity'.
-2. Créer une classe BoardView qui hérite de l'objet View.
-3. La classe BoardView va servir de support pour le tracé du plateau.
+1. Créer une application basée sur le template **'Empty Activity'**.
+2. Créer une classe **BoardView** qui hérite de l'objet **View**.
+3. La classe **BoardView** va servir de support pour le tracé du plateau.
+
+## BoardView
+
+La classe BoardView hérite donc de l'objet View. L'objet View dispose d'une méthode 
+[onDraw(Canvas canvas)](https://developer.android.com/reference/android/view/View.html#onDraw(android.graphics.Canvas))
+qu'il faudra surcharger afin de dessiner dedans.
+
+```java
+  @Override
+  onDraw(Canvas canvas) {
+    super.onDraw(canvas);
+  }
+```
+
+A la création de l'objet BoardView, le système appelera la méthode ```onDraw```  automatiquement. Par contre, pour forcer un nouveau tracé, il faudra appeler la méthode [invalidate()](https://developer.android.com/reference/android/view/View.html#invalidate())
 
 ### Le widget BoardView sera intégré dans le constraintLayout de l'Activity de la façon suivante :
 
-> Nous integrons directement l'objet dans le ConstraintLayout à l'aide de ```ConstraintSet```.
+> Nous integrerons directement l'objet dans le ConstraintLayout à l'aide de ```ConstraintSet```.
 
 ```java
   @Override
@@ -70,20 +85,12 @@ Les labyrinthes seront stockés de la manière suivante :
 ```java
 String labyrinthe1 = "########### ##B #  ##  ##    ##    #   ## #  #   ## ####   ##        ## #  ##  ##A#      ###########"
 String labyrinthe2 = ...
-
-ArrayList<String> array = new ArrayList<>();
-array.add(labyrinthe1);
-array.add(labyrinthe2);
-
 ```
 
 ### Les murs et la pierre seront récupérés dans le fichier tiles.png se trouvant dans le projet sous **res/raw**.
 ### Ne pas découper le fichier tiles.png en plusieurs fichiers.
 
-## Le tracé:
 
-> Le tracé se fera dans la méthode **onDraw()** de la classe *BoardView*.
-> Cette méthode appartient à la classe View, elle sera donc surchargée.
 
 ## Déplacement de la pierre
 

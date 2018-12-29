@@ -4,38 +4,38 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
-public class BitmapBuilder {
-  private BitmapData mData;
-
+public class BitmapBuilder extends BitmapData {
   /**
    * Constructor
-   * @param ctx Activity context
+   * @param ctx NonNull Context: Activity context
    */
   public BitmapBuilder(@NonNull Context ctx) {
-    mData = new BitmapData(ctx);
+    super(ctx);
   }
 
+  /**
+   * Get in the tiles bitmap the stone sub part.
+   * @return Bitmap: the stone bitmap
+   */
   public Bitmap getStoneBitmap() {
-    int dpiSize = mData.dpiTileSize;
-    return Bitmap.createBitmap(mData.tiles, dpiSize * 4, 0, dpiSize, dpiSize);
+    int dpiSize = dpiTileSize;
+    return Bitmap.createBitmap(tiles, dpiSize * 4, 0, dpiSize, dpiSize);
   }
 
-  public void getBoardBitmap(BitmapBuilderListener listener) {
-    String[] lTiles = {
-      "##########",
-      "#    #   #",
-      "# #  # # #",
-      "# #    # #",
-      "# ###### #",
-      "#   #B   #",
-      "# # ###  #",
-      "# # ### ##",
-      "#A#      #",
-      "##########",
-    };
+  /**
+   * Build the board bitmap according to parameter
+   * @param board String: board definition
+   * @param listener BitmapBuilderListener: listener used to inform the caller when work is finish
+   */
+  public void getBoardBitmap(String board, BitmapBuilderListener listener) {
+    if (board.length() == TILES_PER_LINE * TILES_PER_LINE) {
+      // Save board
+      mGameBoard = board;
 
-    mData.setGrid(lTiles);
-    BitmapWorkerTask task = new BitmapWorkerTask(listener);
-    task.execute(mData);
+      BitmapWorkerTask task = new BitmapWorkerTask(listener);
+      task.execute(this);
+    } else {
+      listener.onBitmapError("Bitmap format is incorrect");
+    }
   }
 }

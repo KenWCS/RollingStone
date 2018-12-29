@@ -1,31 +1,22 @@
 package fr.wildcodeschool.rollingstone;
 
+import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
-import fr.wildcodeschool.rollingstone.builder.BitmapBuilder;
-import fr.wildcodeschool.rollingstone.tool.Metrics;
-import fr.wildcodeschool.rollingstone.tool.OnSwipeTouchListener;
+import fr.wildcodeschool.rollingstone.builder.*;
+import fr.wildcodeschool.rollingstone.builder.metrics.Metrics;
+import fr.wildcodeschool.rollingstone.gestures.OnSwipeTouchListener;
 
 public class MainActivity extends AppCompatActivity {
-
-  String[] lTiles = {
-    "##########",
-    "#    #   #",
-    "# #  # # #",
-    "# #    # #",
-    "# ###### #",
-    "#   #B   #",
-    "# # ###  #",
-    "# # ### ##",
-    "#A#      #",
-    "##########",
-  };
-  int x = 1;
-  int y = 8;
+  // Map definition
+  String mGameBoard = "###########    #   ## #  # # ## #    # ## ###### ##   #B   ## # ###  ## # ### ###A#      ###########";
+  Point  mStoneAxis = new Point(1, 8);
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -55,38 +46,88 @@ public class MainActivity extends AppCompatActivity {
     // Create instance of bitmap builder
     BitmapBuilder lBitmapBuilder = new BitmapBuilder(this);
 
-    lBitmapBuilder.getBoardBitmap(bitmap ->
-      lView
-        .setBoardBitmap(bitmap)
-        .setStoneBitmap(lBitmapBuilder.getStoneBitmap())
+    // Build asynchroniously the board
+    lBitmapBuilder.getBoardBitmap(mGameBoard, new BitmapBuilderListener() {
+        @Override
+        public void onBitmapReady(Bitmap bitmap) {
+          lView
+            .setStoneAxis(mStoneAxis)
+            .setBoardBitmap(bitmap)
+            .setStoneBitmap(lBitmapBuilder.getStoneBitmap());
+        }
+
+        @Override
+        public void onBitmapError(String error) {
+          Log.e("BoardBitmap Error", error);
+        }
+      }
     );
 
+
+    // Gesture listener instance
     lView.setOnTouchListener(new OnSwipeTouchListener(this) {
+
+      /**
+       * Listen top swipe gesture to update stone position
+       */
       public void onSwipeTop() {
-        if (lTiles[y-1].charAt(x) != '#') {
-          lView.moveStone(BoardView.MOVE.UP);
-          y--;
+        // Check if stone is not on the top border
+        if (mStoneAxis.y > 1) {
+          // Look if stone could move up
+          if (mGameBoard.charAt(BitmapBuilder.TILES_PER_LINE * (mStoneAxis.y - 1) + mStoneAxis.x) != '#') {
+            // Update position
+            mStoneAxis.y--;
+            // Force refresh
+            lView.invalidate();
+          }
         }
       }
 
+      /**
+       * Listen right swipe gesture to update stone position
+       */
       public void onSwipeRight() {
-        if (lTiles[y].charAt(x+1) != '#') {
-          lView.moveStone(BoardView.MOVE.RT);
-          x++;
+        // Check if stone is not on the right border
+        if (mStoneAxis.x < 8) {
+          // Look if stone could move right
+          if (mGameBoard.charAt(BitmapBuilder.TILES_PER_LINE * mStoneAxis.y + mStoneAxis.x + 1) != '#') {
+            // Update position
+            mStoneAxis.x++;
+            // Force refresh
+            lView.invalidate();
+          }
         }
       }
 
+      /**
+       * Listen left swipe gesture to update stone position
+       */
       public void onSwipeLeft() {
-        if (lTiles[y].charAt(x-1) != '#') {
-          lView.moveStone(BoardView.MOVE.LT);
-          x--;
+        // Check if stone is not on the left border
+        if (mStoneAxis.x > 1) {
+          // Look if stone could move right
+          if (mGameBoard.charAt(BitmapBuilder.TILES_PER_LINE * mStoneAxis.y + mStoneAxis.x - 1) != '#') {
+            // Update position
+            mStoneAxis.x--;
+            // Force refresh
+            lView.invalidate();
+          }
         }
       }
 
+      /**
+       * Listen bottom swipe gesture to update stone position
+       */
       public void onSwipeBottom() {
-        if (lTiles[y+1].charAt(x) != '#') {
-          lView.moveStone(BoardView.MOVE.DN);
-          y++;
+        // Check if stone is not on the bottom border
+        if (mStoneAxis.y < 8) {
+          // Look if stone could move down
+          if (mGameBoard.charAt(BitmapBuilder.TILES_PER_LINE * (mStoneAxis.y + 1) + mStoneAxis.x) != '#') {
+            // Update position
+            mStoneAxis.y++;
+            // Force refresh
+            lView.invalidate();
+          }
         }
       }
     });

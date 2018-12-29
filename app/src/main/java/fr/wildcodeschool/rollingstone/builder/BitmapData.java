@@ -7,22 +7,23 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
-import fr.wildcodeschool.rollingstone.tool.Metrics;
+import fr.wildcodeschool.rollingstone.builder.metrics.Metrics;
 import fr.wildcodeschool.rollingstone.R;
 
-public class BitmapData {
-  public static final int NB_TILES_PER_LINE = 10;
+class BitmapData {
+  // Define the expected dimension of board
+  public static final int TILES_PER_LINE = 10;
 
-  Bitmap tiles;
+  protected Bitmap tiles;
   int itemSize;
   int dpiTileSize;
   Rect boardRect;
   Paint painter = new Paint();
-  String[] grid;
+  String mGameBoard;
 
   /**
    * Constructor
-   * @param ctx Activity context
+   * @param ctx NonNull Context: Activity context
    */
   BitmapData(@NonNull Context ctx) {
     Metrics lMetrics = Metrics.getInstance();
@@ -36,17 +37,9 @@ public class BitmapData {
 
     // Compute size of a tile in the screen
     int lScreenWidth = lMetrics.getScreenWidth();
-    itemSize = lScreenWidth / NB_TILES_PER_LINE;
+    itemSize = lScreenWidth / TILES_PER_LINE;
 
-    //
+    // Define the Rectangular zone of game board
     boardRect = new Rect(0,0, lScreenWidth, lScreenWidth);
-  }
-
-  /**
-   *
-   * @param grid
-   */
-  void setGrid(String[] grid) {
-    this.grid = grid;
   }
 }
