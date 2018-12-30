@@ -57,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
+        public void onLoadingProgress(Integer progress) {
+          // TODO - Display progress
+        }
+
+        @Override
         public void onBitmapError(String error) {
           Log.e("BoardBitmap Error", error);
         }

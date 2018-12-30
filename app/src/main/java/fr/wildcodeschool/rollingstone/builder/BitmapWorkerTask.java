@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 
-class BitmapWorkerTask extends AsyncTask<BitmapData, Void, Bitmap> {
+class BitmapWorkerTask extends AsyncTask<BitmapData, Integer, Bitmap> {
   // Listener used to return the build bitmap
   private BitmapBuilderListener mListener;
 
@@ -42,9 +42,15 @@ class BitmapWorkerTask extends AsyncTask<BitmapData, Void, Bitmap> {
         Rect dest = new Rect(left, top, left + data.itemSize, top + data.itemSize);
         lCanvas.drawBitmap(data.tiles, lTileRect, dest, data.painter);
       }
+      publishProgress(i);
     }
 
     return lBitmap;
+  }
+
+  @Override
+  protected void onProgressUpdate(Integer... progress) {
+    mListener.onLoadingProgress(progress[0]);
   }
 
   /**

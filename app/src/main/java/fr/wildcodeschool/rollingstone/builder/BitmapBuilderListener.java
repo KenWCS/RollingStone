@@ -17,4 +17,10 @@ public interface BitmapBuilderListener {
    * @param error String: problem encountered during bitmap creation
    */
   void onBitmapError(String error);
+
+  /**
+   * Called during bitmap creation
+   * @param progress Integer: loading progress
+   */
+  void onLoadingProgress(Integer progress);
 }
