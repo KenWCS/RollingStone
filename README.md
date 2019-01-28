@@ -90,22 +90,15 @@ String labyrinthe2 = ...
 ### Les murs et la pierre seront récupérés dans le fichier tiles.png se trouvant dans le projet sous **res/raw**.
 ### Ne pas découper le fichier tiles.png en plusieurs fichiers.
 
-
-
 ## Déplacement de la pierre
-
 Pour déplacer la pierre vers le haut, le bas, la gauche et la droite, tu utiliseras le **Swipe Gesture**
 
 ## Documentation:
-
 ### Interaction utilisateur
-[Use touch gestures](https://developer.android.com/training/gestures/)
-
-[Sensors](https://developer.android.com/guide/topics/sensors/)
+* [Use touch gestures](https://developer.android.com/training/gestures/)
+* [Sensors](https://developer.android.com/guide/topics/sensors/)
 
 ### Dessiner dans un canvas
-[Canvas](https://developer.android.com/reference/android/graphics/Canvas)
-
-[Paint](https://developer.android.com/reference/android/graphics/Paint)
-
-[Bitmap](https://developer.android.com/reference/android/graphics/Bitmap)
+* [Canvas](https://developer.android.com/reference/android/graphics/Canvas)
+* [Paint](https://developer.android.com/reference/android/graphics/Paint)
+* [Bitmap](https://developer.android.com/reference/android/graphics/Bitmap)
